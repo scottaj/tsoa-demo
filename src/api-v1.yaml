@@ -1,0 +1,113 @@
+openapi: 3.0.3
+info:
+  title: Demo API
+  version: 1.0.0
+paths:
+  /v1/spells:
+    get:
+      tags:
+        - Spells
+      summary: Get all spells optionally filtered by spell level or magic school
+      operationId: getAllSpells
+      parameters:
+        - in: query
+          name: level
+          schema:
+            type: number
+            format: integer
+          required: false
+        - in: query
+          name: school
+          schema:
+            $ref: '#/components/schemas/SpellSchool'
+          required: false
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Spell'
+    post:
+      tags:
+        - Spells
+      summary: Create a new spell
+      operationId: createSpell
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Spell'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Spell'
+
+  /v1/spells/{name}:
+    get:
+      tags:
+        - Spells
+      summary: Get a specific spell by name
+      operationId: getSpellByName
+      parameters:
+        - in: path
+          name: name
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Spell'
+        '404':
+          description: Spell Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    Spell:
+      type: object
+      properties:
+        name:
+          type: string
+        level:
+          type: number
+          format: integer
+        description:
+          type: string
+        school:
+          $ref: '#/components/schemas/SpellSchool'
+        castingRequirments:
+          $ref: '#/components/schemas/CastingRequirements'
+    CastingRequirements:
+      type: object
+      properties:
+        concentration:
+          type: boolean
+        actionCost:
+          type: number
+          format: integer
+        actionType:
+          $ref: '#/components/schemas/ActionType'
+    SpellSchool:
+      type: string
+      enum: [ ABJURATION, CONJURATION, DIVINATION, ENCHANTMENT, EVOCATION, ILLUSION, NECROMANCY, TRANSMUTATION ]
+    ActionType:
+      type: string
+      enum: [ ACTION, BONUS_ACTION, REACTION, MINUTE ]
+    Error:
+      type: object
+      properties:
+        message:
+          type: string

@@ -1,7 +1,7 @@
 {
   "entryFile": "src/app.ts",
   "noImplicitAdditionalProperties": "ignore",
-  "controllerPathGlobs": ["src/**/*-controller.ts"],
+  "controllerPathGlobs": ["src/**/*-tsoa-controller.ts"],
   "spec": {
     "outputDirectory": "build",
     "specVersion": 3,

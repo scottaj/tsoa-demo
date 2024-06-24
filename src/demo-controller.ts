@@ -1,80 +1,33 @@
-import {Body, Controller, Get, Middlewares, Path, Post, Response, Route} from "tsoa";
-import {NotFoundError, UnauthorizedError} from "./errors";
-import express from "express";
+import express, {Request, Response} from "express";
+import {Spell, SpellManager, SpellSchool} from "./spell-manager";
 
-export enum StuffType {
-    GOOD = 'GOOD',
-    BAD = 'BAD',
-    MEH = 'MEH'
-}
+export const DemoRouter = express.Router()
 
-export type StuffDetails = {
-    id: string
-    barcode: string
-    type: StuffType
-}
+DemoRouter.get("/", getAllSpells)
+DemoRouter.get("/{name}", getSpellByName)
+DemoRouter.post("/", createSpell)
 
-export type SomeCoolStuff = {
-    id: string
-    name: string
-    quantity: number
-    details: StuffDetails[]
-}
-
-export type ErrorResponse = {
-    message: string
-}
-
-const data: SomeCoolStuff[] = []
-
-const auth = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-    const token = req.header('x-api-key')
-    if (token !== 'abc123') {
-        throw new UnauthorizedError('Not authorized, get out')
+async function getAllSpells(req: Request, res: Response): Promise<Response> {
+    let level: number | undefined
+    if (req.query.level) {
+        level = Number(req.query.level)
     }
+    const school: SpellSchool | undefined = req.query.school as SpellSchool
 
-    next()
+    const allSpells = await SpellManager.allSpells(level, school)
+    return res.json(allSpells)
 }
 
-@Route("demo")
-export class DemoController extends Controller {
-    /**
-     * This description will end up in the API doc
-     */
-    @Get('unauthenticated')
-    public async unauthenticated(): Promise<SomeCoolStuff[]> {
-        return data
-    }
+async function getSpellByName(req: Request, res: Response): Promise<Response> {
+    const name = req.params.name
+    const spell = await SpellManager.getSpellByName(name)
 
-    /**
-     * This endpoint requires an API key
-     * @param id the id of the record
-     */
-    @Get('authenticated/{id}')
-    @Middlewares(auth)
-    @Response<ErrorResponse>(401, 'Auth key not found or invalid', {message: 'Not authorized, get out'})
-    @Response<ErrorResponse>(404, 'The ID is not found', {message: 'record not found'})
-    public async authenticated(@Path() id: string): Promise<SomeCoolStuff> {
-        const record = data.find((d) => d.id === id)
-        if (!record) {
-            throw new NotFoundError('Record not found');
-        }
-        return record;
-    }
+    return res.json(spell)
+}
 
-    @Post('authenticated')
-    @Middlewares(auth)
-    @Response<ErrorResponse>(401, 'Auth key not found or invalid', {message: 'Not authorized, get out'})
-    @Response<ErrorResponse>(500, 'The record already exists', {message: 'Something went wrong'})
-    public async save(@Body() request: SomeCoolStuff): Promise<void> {
-        const existing = await this.authenticated(request.id)
+async function createSpell(req: Request, res: Response): Promise<Response> {
+    const spell: Spell = req.body
 
-        if (existing) {
-            throw new Error(`Record with id ${request.id} already exists`)
-        }
-
-        data.push(request)
-
-        return this.setStatus(204)
-    }
+    await SpellManager.createSpell(spell)
+    return res.json(spell)
 }

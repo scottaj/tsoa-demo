@@ -4,10 +4,7 @@
   "description": "",
   "main": "index.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "generate-routes": "tsoa routes",
-    "build": "tsoa routes && tsoa spec-and-routes && tsc",
-    "build-clients": "java -jar openapi-generator-cli.jar generate -i build/swagger.yaml -g kotlin -o clients/kotlin && java -jar openapi-generator-cli.jar generate -i build/swagger.yaml -g typescript-fetch -o clients/typescript && java -jar openapi-generator-cli.jar generate -i build/swagger.yaml -g swift5 -o clients/swift",
+    "build": "tsoa spec-and-routes && tsc",
     "start": "node build/app.js"
   },
   "author": "",

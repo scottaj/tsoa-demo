@@ -3,17 +3,16 @@ require('express-async-errors') // Don't move this, needs to be before the route
 
 import { RegisterRoutes } from "./routes";
 import {WebServerError} from "./errors";
+import {DemoRouter} from "./demo-controller";
 
 export const app = express();
+const router = express.Router();
 
 // Use body parser to read sent json payloads
-app.use(
-    urlencoded({
-        extended: true,
-    })
-);
+app.use( urlencoded({ extended: true, }) );
 app.use(json());
 
+router.use("v1/spells", DemoRouter)
 RegisterRoutes(app);
 
 app.use((err: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {
