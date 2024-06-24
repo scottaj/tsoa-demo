@@ -10,5 +10,6 @@
   "sortParamsByRequiredFlag": true,
   "useSettingsGradle": false,
   "omitGradlePluginVersions": true,
-  "omitGradleWrapper": true
+  "omitGradleWrapper": true,
+  "sourceFolder": "../src/main/kotlin"
 }
