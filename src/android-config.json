@@ -1,0 +1,14 @@
+{
+  "groupId": "com.example",
+  "artifactId": "tsoademoapp",
+  "packageName": "com.example.tsoademoapp",
+  "idea": true,
+  "dateLibrary": "threetenbp",
+  "library": "jvm-retrofit2",
+  "serializationLibrary": "moshi",
+  "sortModelPropertiesByRequiredFlag": true,
+  "sortParamsByRequiredFlag": true,
+  "useSettingsGradle": false,
+  "omitGradlePluginVersions": true,
+  "omitGradleWrapper": true
+}

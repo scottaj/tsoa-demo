@@ -5,7 +5,8 @@
   "spec": {
     "outputDirectory": "build",
     "specVersion": 3,
-    "yaml": true
+    "yaml": true,
+    "specFileBaseName": "api-v2"
   },
   "routes": {
     "routesDir": "src"
