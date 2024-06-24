@@ -1,7 +1,7 @@
 {
   "groupId": "com.example",
   "artifactId": "tsoademoapp",
-  "packageName": "com.example.tsoademoapp",
+  "packageName": "com.example.tsoademoapp.api",
   "idea": true,
   "dateLibrary": "threetenbp",
   "library": "jvm-retrofit2",
@@ -10,6 +10,5 @@
   "sortParamsByRequiredFlag": true,
   "useSettingsGradle": false,
   "omitGradlePluginVersions": true,
-  "omitGradleWrapper": true,
-  "sourceFolder": "../src/main/kotlin"
+  "omitGradleWrapper": true
 }

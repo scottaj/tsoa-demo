@@ -2,3 +2,8 @@
 /node_modules/
 /.idea/
 /clients/
+/app/app/.openapi-generator/
+/app/app/README.md
+/app/app/docs/
+/app/app/settings.gradle
+/app/app/src/test/kotlin/
