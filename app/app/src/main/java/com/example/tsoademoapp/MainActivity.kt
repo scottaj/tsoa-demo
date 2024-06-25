@@ -4,44 +4,102 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.lifecycleScope
+import com.example.tsoademoapp.api.apis.SpellsApi
+import com.example.tsoademoapp.api.infrastructure.ApiClient
+import com.example.tsoademoapp.api.infrastructure.Serializer.moshi
+import com.example.tsoademoapp.api.models.ActionType
+import com.example.tsoademoapp.api.models.CastingRequirements
+import com.example.tsoademoapp.api.models.ErrorResponse
+import com.example.tsoademoapp.api.models.Spell
+import com.example.tsoademoapp.api.models.SpellSchool
 import com.example.tsoademoapp.ui.theme.TSOADemoAppTheme
+import com.squareup.moshi.JsonAdapter
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.math.BigDecimal
+
+val jsonAdapter: JsonAdapter<ErrorResponse> = moshi.adapter(ErrorResponse::class.java)
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContent {
-            TSOADemoAppTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+        val viewModel: SpellViewModel by viewModels()
+        lifecycleScope.launch {
+            val spells = viewModel.getAllSpells()
+            setContent {
+                TSOADemoAppTheme {
+                    Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                        SpellList(
+                            spells = spells,
+                            Modifier.padding(innerPadding)
+                        )
+                    }
                 }
             }
         }
     }
 }
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello there $name!",
-        modifier = modifier
-    )
+class SpellViewModel() : ViewModel() {
+    private val spellsAPI: SpellsApi
+
+    init {
+        val apiClient = ApiClient("http://192.168.10.51:3000")
+        spellsAPI = apiClient.createService(SpellsApi::class.java)
+    }
+
+    suspend fun getAllSpells(): List<Spell> {
+        return withContext(Dispatchers.IO) {
+            val response = spellsAPI.getAllSpells()
+            if (response.isSuccessful) {
+                response.body() ?: emptyList()
+            } else {
+                val rawErrorResponse = response.errorBody()?.string() ?: "<NO RESPONSE BODY>"
+                val errorResponse = jsonAdapter.fromJson(rawErrorResponse)
+                throw RuntimeException(errorResponse?.message ?: "UNKNOWN ERROR")
+            }
+        }
+    }
 }
 
-@Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
-    TSOADemoAppTheme {
-        Greeting("Android")
+fun SpellList(spells: List<Spell>, modifier: Modifier = Modifier) {
+    LazyColumn(modifier = modifier) {
+        items(spells) { spell ->
+            SpellRow(spell)
+        }
     }
+}
+
+@Composable
+fun SpellRow(spell: Spell) {
+    Text(
+        text = spell.name
+    )
+    Text(
+        text = "level ${spell.level} ${spell.school}"
+    )
+    Text(
+        text = spell.description
+    )
+    HorizontalDivider(color = Color.Black, thickness = 1.dp)
 }

@@ -12,8 +12,9 @@ const router = express.Router();
 app.use( urlencoded({ extended: true, }) );
 app.use(json());
 
-router.use("v1/spells", DemoRouter)
 RegisterRoutes(app);
+router.use("/spells", DemoRouter)
+app.use('/v1', router)
 
 app.use((err: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {
     if (err instanceof WebServerError && err.httpCode < 500) {
@@ -33,6 +34,6 @@ app.use((err: Error, req: express.Request, res: express.Response, next: express.
 
 const port = process.env.PORT || 3000;
 
-app.listen(port, () =>
+app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`)
-);
+});

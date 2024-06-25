@@ -14,7 +14,7 @@ paths:
           name: level
           schema:
             type: number
-            format: integer
+            format: int
           required: false
         - in: query
           name: school
@@ -35,7 +35,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/ErrorResponse'
     post:
       tags:
         - Spells
@@ -59,7 +59,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/ErrorResponse'
 
   /v1/spells/{name}:
     get:
@@ -85,13 +85,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/ErrorResponse'
         '500':
           description: Error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
     Spell:
@@ -101,13 +101,19 @@ components:
           type: string
         level:
           type: number
-          format: integer
+          format: int
         description:
           type: string
         school:
           $ref: '#/components/schemas/SpellSchool'
-        castingRequirments:
+        castingRequirements:
           $ref: '#/components/schemas/CastingRequirements'
+      required:
+        - name
+        - level
+        - description
+        - school
+        - castingRequirements
     CastingRequirements:
       type: object
       properties:
@@ -115,16 +121,20 @@ components:
           type: boolean
         actionCost:
           type: number
-          format: integer
+          format: int
         actionType:
           $ref: '#/components/schemas/ActionType'
+      required:
+        - concentration
+        - actionCost
+        - actionType
     SpellSchool:
       type: string
       enum: [ ABJURATION, CONJURATION, DIVINATION, ENCHANTMENT, EVOCATION, ILLUSION, NECROMANCY, TRANSMUTATION ]
     ActionType:
       type: string
       enum: [ ACTION, BONUS_ACTION, REACTION, MINUTE ]
-    Error:
+    ErrorResponse:
       type: object
       properties:
         message:
