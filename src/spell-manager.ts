@@ -18,18 +18,11 @@ export enum ActionType {
     MINUTE = "MINUTE"
 }
 
-export type CastingRequirements = {
-    concentration: boolean
-    actionCost: number
-    actionType: ActionType
-}
-
 export type Spell = {
     name: string,
     level: number
     description: string
     school: SpellSchool
-    castingRequirements: CastingRequirements
 }
 
 async function allSpells(level?: number, school?: SpellSchool): Promise<Spell[]> {
@@ -74,44 +67,24 @@ const spells: Spell[] = [
         name: "Fire Bolt",
         school: SpellSchool.EVOCATION,
         level: 0,
-        description: "You hurl a mote of fire at a creature or object within range. Make a ranged spell attack against the target. On a hit, the target takes 1d10 fire damage. A flammable object hit by this spell ignites if it isn’t being worn or carried.",
-        castingRequirements: {
-            concentration: false,
-            actionCost: 1,
-            actionType: ActionType.ACTION
-        }
+        description: "You hurl a mote of fire at a creature or object within range. Make a ranged spell attack against the target. On a hit, the target takes 1d10 fire damage. A flammable object hit by this spell ignites if it isn’t being worn or carried."
     },
     {
         name: "Bless",
         school: SpellSchool.ENCHANTMENT,
         level: 1,
-        description: "You bless up to three creatures of your choice within range. Whenever a target makes an attack roll or a saving throw before the spell ends, the target can roll a d4 and add the number rolled to the attack roll or saving throw.",
-        castingRequirements: {
-            concentration: true,
-            actionCost: 1,
-            actionType: ActionType.ACTION
-        }
+        description: "You bless up to three creatures of your choice within range. Whenever a target makes an attack roll or a saving throw before the spell ends, the target can roll a d4 and add the number rolled to the attack roll or saving throw."
     },
     {
         name: "Misty Step",
         school: SpellSchool.CONJURATION,
         level: 2,
-        description: "Briefly surrounded by silvery mist, you teleport up to 30 feet to an unoccupied space that you can see.",
-        castingRequirements: {
-            concentration: false,
-            actionCost: 1,
-            actionType: ActionType.BONUS_ACTION
-        }
+        description: "Briefly surrounded by silvery mist, you teleport up to 30 feet to an unoccupied space that you can see."
     },
     {
         name: "Ice Feast",
         school: SpellSchool.CONJURATION,
         level: 6,
-        description: "You conjure a feast of magical edible ice that can feed up to 12 creatures. For the next 24 hours any creature that eats the ice is cured of all diseases and poison, gains immunity to fire damage and the stunned condition, makes all constitution saving throws with advantage, and increases their hit point maximum and current hit points increase by 2d10. Due to the effort of eating so much freezing cold ice each creature also takes a level of exhaustion and 1d12 cold damage",
-        castingRequirements: {
-            concentration: false,
-            actionCost: 10,
-            actionType: ActionType.MINUTE
-        }
+        description: "You conjure a feast of magical edible ice that can feed up to 12 creatures. For the next 24 hours any creature that eats the ice is cured of all diseases and poison, gains immunity to fire damage and the stunned condition, makes all constitution saving throws with advantage, and increases their hit point maximum and current hit points increase by 2d10. Due to the effort of eating so much freezing cold ice each creature also takes a level of exhaustion and 1d12 cold damage"
     }
 ]

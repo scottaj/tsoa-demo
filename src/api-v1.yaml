@@ -3,7 +3,7 @@ info:
   title: Demo API
   version: 1.0.0
 paths:
-  /v1/spells:
+  /v1/spels:
     get:
       tags:
         - Spells
@@ -106,28 +106,11 @@ components:
           type: string
         school:
           $ref: '#/components/schemas/SpellSchool'
-        castingRequirements:
-          $ref: '#/components/schemas/CastingRequirements'
       required:
         - name
         - level
         - description
         - school
-        - castingRequirements
-    CastingRequirements:
-      type: object
-      properties:
-        concentration:
-          type: boolean
-        actionCost:
-          type: number
-          format: int
-        actionType:
-          $ref: '#/components/schemas/ActionType'
-      required:
-        - concentration
-        - actionCost
-        - actionType
     SpellSchool:
       type: string
       enum: [ ABJURATION, CONJURATION, DIVINATION, ENCHANTMENT, EVOCATION, ILLUSION, NECROMANCY, TRANSMUTATION ]
