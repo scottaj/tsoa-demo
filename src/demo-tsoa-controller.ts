@@ -2,7 +2,6 @@ import {Body, Controller, Get, Path, Post, Query, Route, Tags} from "tsoa";
 import {Spell, SpellManager, SpellSchool} from "./spell-manager";
 
 @Route("v2/spells")
-@Tags("Spells")
 export class DemoTSOAController extends Controller {
     @Get()
     public async getAllSpells(

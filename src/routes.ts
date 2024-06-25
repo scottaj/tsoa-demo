@@ -16,19 +16,9 @@ const models: TsoaRoute.Models = {
         "enums": ["ABJURATION","CONJURATION","DIVINATION","ENCHANTMENT","EVOCATION","ILLUSION","NECROMANCY","TRANSMUTATION"],
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "ActionType": {
-        "dataType": "refEnum",
-        "enums": ["ACTION","BONUS_ACTION","REACTION","MINUTE"],
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "CastingRequirements": {
-        "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"actionType":{"ref":"ActionType","required":true},"actionCost":{"dataType":"double","required":true},"concentration":{"dataType":"boolean","required":true}},"validators":{}},
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "Spell": {
         "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"castingRequirements":{"ref":"CastingRequirements","required":true},"school":{"ref":"SpellSchool","required":true},"description":{"dataType":"string","required":true},"level":{"dataType":"double","required":true},"name":{"dataType":"string","required":true}},"validators":{}},
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"school":{"ref":"SpellSchool","required":true},"description":{"dataType":"string","required":true},"level":{"dataType":"double","required":true},"name":{"dataType":"string","required":true}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 };
