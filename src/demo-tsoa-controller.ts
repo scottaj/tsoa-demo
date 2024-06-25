@@ -5,6 +5,16 @@ import {ErrorResponse} from "./app";
 @Route("v2/spells")
 @Tags("Spells")
 export class DemoTSOAController extends Controller {
+    /**
+     * Get a list of all spells, optionally filtered by level or school
+     *
+     * @param level Spell level, if specified only return spells of that level
+     * @param school Spell School, if specified only return spells of that school
+     *
+     * @isInt level
+     * @minimum level 0
+     * @maximum level 9
+     */
     @Get()
     @Example<Spell[]>([ DemoTSOAController.exampleSpell ])
     @Response<ErrorResponse>(500, "Server Error")

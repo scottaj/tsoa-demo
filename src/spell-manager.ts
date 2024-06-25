@@ -11,15 +11,17 @@ export enum SpellSchool {
     TRANSMUTATION = "TRANSMUTATION"
 }
 
-export enum ActionType {
-    ACTION = "ACTION",
-    BONUS_ACTION = "BONUS_ACTION",
-    REACTION = "REACTION",
-    MINUTE = "MINUTE"
-}
-
+/**
+ * A D&D 5th Edition Spell
+ */
 export type Spell = {
     name: string,
+
+    /**
+     * @isInt
+     * @minimum 0
+     * @maximum 9
+     */
     level: number
     description: string
     school: SpellSchool

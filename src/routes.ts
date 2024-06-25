@@ -18,7 +18,12 @@ const models: TsoaRoute.Models = {
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "Spell": {
         "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"school":{"ref":"SpellSchool","required":true},"description":{"dataType":"string","required":true},"level":{"dataType":"double","required":true},"name":{"dataType":"string","required":true}},"validators":{}},
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"school":{"ref":"SpellSchool","required":true},"description":{"dataType":"string","required":true},"level":{"dataType":"integer","required":true,"validators":{"minimum":{"value":0},"maximum":{"value":9}}},"name":{"dataType":"string","required":true}},"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "ErrorResponse": {
+        "dataType": "refAlias",
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"message":{"dataType":"string","required":true}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 };
@@ -37,7 +42,7 @@ export function RegisterRoutes(app: Router) {
 
             async function DemoTSOAController_getAllSpells(request: ExRequest, response: ExResponse, next: any) {
             const args: Record<string, TsoaRoute.ParameterSchema> = {
-                    level: {"in":"query","name":"level","dataType":"double"},
+                    level: {"in":"query","name":"level","dataType":"integer","validators":{"isInt":{"errorMsg":"level"},"minimum":{"value":0},"maximum":{"value":9}}},
                     school: {"in":"query","name":"school","ref":"SpellSchool"},
             };
 
