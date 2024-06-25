@@ -16,6 +16,10 @@ RegisterRoutes(app);
 router.use("/spells", DemoRouter)
 app.use('/v1', router)
 
+export type ErrorResponse = {
+    message: string
+}
+
 app.use((err: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {
     if (err instanceof WebServerError && err.httpCode < 500) {
         console.info(`Client error in request ${req.url}`, err)
