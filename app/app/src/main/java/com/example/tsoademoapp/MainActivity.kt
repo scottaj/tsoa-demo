@@ -38,16 +38,26 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         val viewModel: SpellViewModel by viewModels()
         lifecycleScope.launch {
-            val spells = viewModel.getAllSpells()
-            setContent {
-                TSOADemoAppTheme {
-                    Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                        SpellList(
-                            spells = spells,
-                            Modifier
-                                .padding(innerPadding)
-                                .verticalScroll(rememberScrollState())
-                        )
+            try {
+                val spells = viewModel.getAllSpells()
+                setContent {
+                    TSOADemoAppTheme {
+                        Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                            SpellList(
+                                spells = spells,
+                                Modifier
+                                    .padding(innerPadding)
+                                    .verticalScroll(rememberScrollState())
+                            )
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                setContent {
+                    TSOADemoAppTheme {
+                        Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                            Text(text = "Failed to load data: ${e.message}", modifier = Modifier.padding(innerPadding))
+                        }
                     }
                 }
             }
