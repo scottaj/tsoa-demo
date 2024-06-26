@@ -18,6 +18,8 @@ export type Spell = {
     name: string,
 
     /**
+     * The level of the spell, a number 0-9
+     *
      * @isInt
      * @minimum 0
      * @maximum 9
