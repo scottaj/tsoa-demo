@@ -12,12 +12,12 @@ export class DemoTSOAController extends Controller {
     }
 
     @Get('{name}')
-    public async getJackpot(@Path() name: string): Promise<Spell> {
+    public async getSpellByName(@Path() name: string): Promise<Spell> {
         return await SpellManager.getSpellByName(name)
     }
 
     @Post()
-    public async createJackpot(@Body() spell: Spell): Promise<Spell> {
+    public async createSpell(@Body() spell: Spell): Promise<Spell> {
         return await SpellManager.createSpell(spell)
     }
 }

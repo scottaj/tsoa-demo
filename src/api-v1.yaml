@@ -114,9 +114,6 @@ components:
     SpellSchool:
       type: string
       enum: [ ABJURATION, CONJURATION, DIVINATION, ENCHANTMENT, EVOCATION, ILLUSION, NECROMANCY, TRANSMUTATION ]
-    ActionType:
-      type: string
-      enum: [ ACTION, BONUS_ACTION, REACTION, MINUTE ]
     ErrorResponse:
       type: object
       properties:
