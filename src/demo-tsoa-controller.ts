@@ -30,7 +30,7 @@ export class DemoTSOAController extends Controller {
     @Example<Spell>(DemoTSOAController.exampleSpell)
     @Response<ErrorResponse>(404, "Spell Not Found")
     @Response<ErrorResponse>(500, "Server Error")
-    public async getJackpot(@Path() name: string): Promise<Spell> {
+    public async getSpellByName(@Path() name: string): Promise<Spell> {
         return await SpellManager.getSpellByName(name)
     }
 
@@ -38,7 +38,7 @@ export class DemoTSOAController extends Controller {
     @Hidden()
     @Example<Spell>(DemoTSOAController.exampleSpell)
     @Response<ErrorResponse>(500, "Server Error")
-    public async createJackpot(@Body() spell: Spell): Promise<Spell> {
+    public async createSpell(@Body() spell: Spell): Promise<Spell> {
         return await SpellManager.createSpell(spell)
     }
 
